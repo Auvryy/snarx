@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Rust
+packages/sandbox-rs/target/
+target/
+
+# Environment & local secrets
+.env
+.env.*
+!.env.example
+
+# Local trace artifacts
+*.snarx
+!fixtures/**/*.snarx
+
+# OS & Editors
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.log

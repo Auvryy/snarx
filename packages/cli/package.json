@@ -1,0 +1,20 @@
+{
+  "name": "@snarx/cli",
+  "version": "0.1.0",
+  "description": "Local-first MCP security proxy, sandbox runner, and trace CLI for snarx",
+  "type": "module",
+  "bin": {
+    "snarx": "./dist/index.js"
+  },
+  "dependencies": {
+    "@snarx/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests"
+  }
+}
