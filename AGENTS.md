@@ -26,6 +26,10 @@ This file defines mandatory workflow, git hygiene, architecture, and security ru
      - `ci: enforce 600 KB gzipped web bundle budget`
 4. **Never bypass git hooks or checks.**
    - Never use `git commit --no-verify`.
+5. **NEVER commit or push private PC info or sensitive data.**
+   - Never commit real API keys, tokens, `.env` files, SSH/AWS/GPG credentials, database passwords, real agent session logs, or personal machine details (usernames, `/home/<user>` paths, hostnames, private IPs, personal emails).
+   - Always use clearly fake/synthetic placeholder data in unit tests, docs, and `fixtures/`.
+   - Always inspect `git diff` / `git status` before committing to ensure no sensitive files are accidentally staged.
 
 ---
 
