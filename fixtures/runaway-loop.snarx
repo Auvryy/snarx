@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "0.1.0",
+  "bundleId": "fixture-runaway-loop",
+  "createdAt": "2026-11-25T12:01:00.000Z",
+  "redacted": true,
+  "redactedCount": 0,
+  "events": [
+    {
+      "timestamp": "2026-11-25T12:00:00.000Z",
+      "source": "agy",
+      "kind": "tool_result",
+      "toolName": "run_command",
+      "tokens": 650,
+      "isError": true,
+      "payload": {
+        "exitCode": 1,
+        "stderr": "Error: Cannot find module ./missing-config.json"
+      },
+      "seq": 1,
+      "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "dfa43ae735f0a9b6188f6a46c00d4dfec4239976ccdbf5af9117ba9922131335"
+    },
+    {
+      "timestamp": "2026-11-25T12:00:00.000Z",
+      "source": "agy",
+      "kind": "tool_result",
+      "toolName": "run_command",
+      "tokens": 650,
+      "isError": true,
+      "payload": {
+        "exitCode": 1,
+        "stderr": "Error: Cannot find module ./missing-config.json"
+      },
+      "seq": 2,
+      "prevHash": "dfa43ae735f0a9b6188f6a46c00d4dfec4239976ccdbf5af9117ba9922131335",
+      "hash": "46e6998bd4ca0b21bc29a395583f08b1d0e00e227baac25347513f00aefa301a"
+    },
+    {
+      "timestamp": "2026-11-25T12:00:00.000Z",
+      "source": "agy",
+      "kind": "tool_result",
+      "toolName": "run_command",
+      "tokens": 650,
+      "isError": true,
+      "payload": {
+        "exitCode": 1,
+        "stderr": "Error: Cannot find module ./missing-config.json"
+      },
+      "seq": 3,
+      "prevHash": "46e6998bd4ca0b21bc29a395583f08b1d0e00e227baac25347513f00aefa301a",
+      "hash": "8cec3fe72bb1171b68c1ea681b7f1c64acbd2bf6920444bbba17098df78dad89"
+    },
+    {
+      "timestamp": "2026-11-25T12:00:00.000Z",
+      "source": "agy",
+      "kind": "tool_result",
+      "toolName": "run_command",
+      "tokens": 650,
+      "isError": true,
+      "payload": {
+        "exitCode": 1,
+        "stderr": "Error: Cannot find module ./missing-config.json"
+      },
+      "seq": 4,
+      "prevHash": "8cec3fe72bb1171b68c1ea681b7f1c64acbd2bf6920444bbba17098df78dad89",
+      "hash": "3e09d19180d30c7f583de3a6793b04c1d4b15b98af66875e6337c429f8d13d6b"
+    }
+  ],
+  "rootHash": "3e09d19180d30c7f583de3a6793b04c1d4b15b98af66875e6337c429f8d13d6b",
+  "signature": {
+    "algorithm": "Ed25519",
+    "publicKeyBase64": "/GDWWyYI0T7L89B3Ci0B8cdPz+/EhWcLr6/ewHePxyo=",
+    "valueBase64": "FoCq5UnzT6A5bNESpCymXHareo3QgrLa/+Zx5iJgV6qH1vLTTWzIRx11pD8Rwxta8SIQLYDI+0NarO5tE8lBDA=="
+  }
+}
