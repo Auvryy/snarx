@@ -11,10 +11,10 @@ const encoder = new TextEncoder();
 
 export function canonicalJson(value: unknown): string {
   if (value === null || typeof value !== "object") {
-    return JSON.stringify(value);
+    return JSON.stringify(value) ?? "null";
   }
   if (Array.isArray(value)) {
-    return `[${value.map((item) => canonicalJson(item)).join(",")}]`;
+    return `[${value.map((item) => (item === undefined ? "null" : canonicalJson(item))).join(",")}]`;
   }
   const entries = Object.entries(value as Record<string, unknown>)
     .filter(([, v]) => v !== undefined)
@@ -145,6 +145,71 @@ export async function sealBundle(
   }
 
   return bundle;
+}
+
+export type ParseBundleResult = { ok: true; bundle: SnarxBundle } | { ok: false; error: string };
+
+/**
+ * Safely parses and validates untrusted JSON text (e.g., from browser drag-and-drop or CLI)
+ * into a SnarxBundle without throwing uncaught exceptions.
+ */
+export function parseBundle(jsonText: string): ParseBundleResult {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(jsonText);
+  } catch (err) {
+    return {
+      ok: false,
+      error: `Invalid JSON: ${err instanceof Error ? err.message : String(err)}`,
+    };
+  }
+
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+    return { ok: false, error: "Bundle root must be a JSON object" };
+  }
+
+  const obj = parsed as Record<string, unknown>;
+  if (obj.schemaVersion !== SNARX_SCHEMA_VERSION) {
+    return {
+      ok: false,
+      error: `Unsupported schemaVersion "${String(obj.schemaVersion)}" (expected "${SNARX_SCHEMA_VERSION}")`,
+    };
+  }
+  if (typeof obj.bundleId !== "string" || obj.bundleId.length === 0) {
+    return { ok: false, error: "Missing or invalid bundleId" };
+  }
+  if (typeof obj.createdAt !== "string") {
+    return { ok: false, error: "Missing or invalid createdAt" };
+  }
+  if (typeof obj.rootHash !== "string" || obj.rootHash.length !== 64) {
+    return { ok: false, error: "Missing or invalid 64-char SHA-256 rootHash" };
+  }
+  if (!Array.isArray(obj.events)) {
+    return { ok: false, error: "Bundle events must be an array" };
+  }
+
+  for (let i = 0; i < obj.events.length; i++) {
+    const ev = obj.events[i];
+    if (ev === null || typeof ev !== "object" || Array.isArray(ev)) {
+      return { ok: false, error: `Event at index ${i} must be an object` };
+    }
+    const rec = ev as Record<string, unknown>;
+    if (
+      typeof rec.seq !== "number" ||
+      typeof rec.timestamp !== "string" ||
+      typeof rec.source !== "string" ||
+      typeof rec.kind !== "string" ||
+      typeof rec.prevHash !== "string" ||
+      typeof rec.hash !== "string" ||
+      rec.payload === null ||
+      typeof rec.payload !== "object" ||
+      Array.isArray(rec.payload)
+    ) {
+      return { ok: false, error: `Malformed event structure at index ${i}` };
+    }
+  }
+
+  return { ok: true, bundle: parsed as SnarxBundle };
 }
 
 export interface VerifyBundleResult {
