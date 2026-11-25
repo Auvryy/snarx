@@ -3,11 +3,16 @@ import { redactSecrets, redactUnknown } from "./redact.js";
 
 describe("redactSecrets & redactUnknown", () => {
   it("redacts OpenAI, Anthropic, Google, AWS, and DB URL secrets with accurate counts", () => {
+    // Build synthetic test keys dynamically so GitHub Secret Scanning never fires false alerts
+    const fakeAnthropic = ["sk-ant", "api03-1234567890abcdef"].join("-");
+    const fakeOpenAi = ["sk", "proj1234567890abcdef"].join("-");
+    const fakeGoogle = ["AIza", "SyA1234567890abcdefghijkLMNOPQRSTUV"].join("");
+    const fakeAws = ["AKIA", "IOSFODNN7EXAMPLE"].join("");
     const sample = [
-      "ANTHROPIC=sk-ant-api03-1234567890abcdef",
-      "OPENAI=sk-proj1234567890abcdef",
-      "GOOGLE=AIzaSyA1234567890abcdefghijkLMNOPQRSTUV",
-      "AWS=AKIAIOSFODNN7EXAMPLE",
+      `ANTHROPIC=${fakeAnthropic}`,
+      `OPENAI=${fakeOpenAi}`,
+      `GOOGLE=${fakeGoogle}`,
+      `AWS=${fakeAws}`,
       "DB=postgres://admin:supersecret@db.internal:5432/app",
     ].join(" ");
 
